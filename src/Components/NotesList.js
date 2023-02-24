@@ -1,12 +1,13 @@
+import AddNote from "./AddNote";
 import Note from "./Note";
 
-const NotesList = () => {
+const NotesList = (props) => {
     return (
         <div className="notes-list">
-            <Note/>
-            <Note/>
-            <Note/>
-            <Note/>
+           {props.notes.map((note)=>(
+            <Note note={note} />
+           ))}
+           <AddNote handleAddNote={props.handleAddNote}/>
         </div>
     )
 }
