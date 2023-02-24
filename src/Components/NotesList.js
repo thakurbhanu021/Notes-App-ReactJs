@@ -5,9 +5,9 @@ const NotesList = (props) => {
     return (
         <div className="notes-list">
            {props.notes.map((note)=>(
-            <Note note={note} />
+            <Note note={note} handleDeleteNote={props.handleDeleteNote}/>
            ))}
-           <AddNote handleAddNote={props.handleAddNote}/>
+           <AddNote handleAddNote={props.handleAddNote} />
         </div>
     )
 }
