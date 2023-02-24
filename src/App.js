@@ -3,6 +3,7 @@ import { useState } from "react";
 import { nanoid } from "nanoid";
 import NotesList from "./Components/NotesList";
 import Search from "./Components/Search";
+import Header from "./Components/Header";
 
 const App = () => {
   const [notes, setNotes] = useState([
@@ -23,6 +24,7 @@ const App = () => {
     },
   ]);
   const [searchText, setSearchText] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
 
   const onAddNote = (text) => {
     const date = new Date();
@@ -41,13 +43,16 @@ const App = () => {
   };
 
   return (
+    <div className={`${darkMode && 'dark-mode'}`}>
     <div className="container">
+      <Header handleToggleDarkMode={setDarkMode}/>
       <Search handleSearch={setSearchText} />
       <NotesList
         notes={notes.filter((note)=>(note.text.toLowerCase().includes(searchText)))}
         handleAddNote={onAddNote}
         handleDeleteNote={onDeleteNote}
       />
+    </div>
     </div>
   );
 };
