@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 import NotesList from "./Components/NotesList";
 import Search from "./Components/Search";
 import Header from "./Components/Header";
+// import useDebounce from "./hooks/useDebounce";
 
 const App = () => {
   const [notes, setNotes] = useState([
@@ -25,14 +26,30 @@ const App = () => {
   ]);
   const [searchText, setSearchText] = useState("");
   const [darkMode, setDarkMode] = useState(false);
+  const [debouncedValue, setDebouncedValue] = useState(searchText);
+
+  // const debouncedSearch = useDebounce(searchText, 500);
+  
+  useEffect(() => {
+    if (searchText) {
+      const handler = setTimeout(() => {
+        setDebouncedValue(searchText);
+      }, 2000);
+      return () => {
+        clearTimeout(handler);
+      };
+    } else {
+      return;
+    }
+  }, [searchText]);
 
   useEffect(() => {
     const savedNotes = JSON.parse(localStorage.getItem("react-notes-app-data"));
     if (savedNotes) {
       setNotes(savedNotes);
-      console.log(savedNotes);
+      // console.log(savedNotes);
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("react-notes-app-data", JSON.stringify(notes));
@@ -61,7 +78,7 @@ const App = () => {
         <Search handleSearch={setSearchText} />
         <NotesList
           notes={notes.filter((note) =>
-            note.text.toLowerCase().includes(searchText)
+            note.text.toLowerCase().includes(debouncedValue)
           )}
           handleAddNote={onAddNote}
           handleDeleteNote={onDeleteNote}
