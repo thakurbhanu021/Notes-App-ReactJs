@@ -29,12 +29,12 @@ const App = () => {
   const [debouncedValue, setDebouncedValue] = useState(searchText);
 
   // const debouncedSearch = useDebounce(searchText, 500);
-  
+
   useEffect(() => {
     if (searchText) {
       const handler = setTimeout(() => {
         setDebouncedValue(searchText);
-      }, 2000);
+      }, 500);
       return () => {
         clearTimeout(handler);
       };
